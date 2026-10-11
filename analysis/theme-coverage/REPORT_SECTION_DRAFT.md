@@ -64,5 +64,6 @@ the whole window.
 *Reproducibility: `python3 scripts/theme_coverage.py <digest index.json at
 23617ba> <v0.11.0 archive>/data/snapshots analysis/theme-coverage` — no
 credentials, no network. The script aborts if either input's SHA-256 differs
-from the pins recorded in it and in `README.md`. Figure:
-`themes_coverage.svg`.*
+from the pins recorded in it and in `README.md`. The manuscript's own
+capability figure (`fig:taxonomy-sankey`) covers the full catalog; this
+analysis deliberately ships tables only.*

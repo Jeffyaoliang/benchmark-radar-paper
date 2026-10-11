@@ -41,12 +41,6 @@ DIGEST_SHA256 = "f44bf9f8df8a611efb31f1b5bdaa6b814e796bef10e2110edd0bd9c214a492d
 SNAPSHOT_COUNT = 46
 SNAPSHOTS_SHA256 = "fb7c995a0ffd9f882e8b05a8bded8466c2af642821ceb7a4fb0e9fbb558ebb75"
 
-_BAR = (
-    '<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#2f6f8f">'
-    "<title>{label}: {v}</title></rect>"
-)
-_TEXT = '<text x="{x}" y="{y}" font-size="12" fill="#15242a">{label}</text>'
-
 
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -126,26 +120,6 @@ def cooccurrence(papers: list[dict], top: int = 8) -> list[tuple[str, str, int]]
             for second in tags[i + 1 :]:
                 pairs[(first, second)] += 1
     return pairs.most_common(8)
-
-
-def bar_svg(counts: list[tuple[str, int]], title: str) -> str:
-    width, row, pad = 640, 26, 130
-    height = pad + row * len(counts) + 10
-    max_v = max(value for _, value in counts) or 1
-    parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
-        f'viewBox="0 0 {width} {height}" role="img" aria-label="{title}">'
-        f'<text x="10" y="20" font-size="14" font-weight="bold" fill="#15242a">'
-        f"{title}</text>"
-    ]
-    for i, (label, value) in enumerate(counts):
-        y = pad + i * row
-        w = int((width - pad - 60) * value / max_v)
-        parts.append(_TEXT.format(x=10, y=y + 15, label=label))
-        parts.append(_BAR.format(x=pad, y=y + 4, w=w, h=16, label=label, v=value))
-        parts.append(_TEXT.format(x=pad + w + 6, y=y + 16, label=str(value)))
-    parts.append("</svg>")
-    return "".join(parts)
 
 
 def build_report(papers: list[dict], radar_types: Counter) -> str:
@@ -235,10 +209,6 @@ def main(argv: list[str]) -> int:
 
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "coverage.md").write_text(text, encoding="utf-8")
-    (out_dir / "themes_coverage.svg").write_text(
-        bar_svg(theme_counts(papers).most_common(), "Agent-benchmark papers per capability theme"),
-        encoding="utf-8",
-    )
     print(text)
     return 0
 

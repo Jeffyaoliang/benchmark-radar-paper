@@ -27,14 +27,21 @@ so.
 
 - `scripts/theme_coverage.py` — the reproducible analysis. Two public inputs,
   both frozen and hash-pinned (see below); no credentials, no network. Writes
-  `coverage.md` and `themes_coverage.svg` here, and **refuses to run** if
-  either input's SHA-256 differs from the pins in the script, so a committed
-  table can never quietly describe a corpus that moved on.
+  `coverage.md` here, and **refuses to run** if either input's SHA-256 differs
+  from the pins in the script, so a committed table can never quietly describe
+  a corpus that moved on.
 - `coverage.md` — generated tables: theme distribution, record-type vs
   capability layers, concentration and gaps, monthly arrivals, assigned field.
-- `themes_coverage.svg` — papers per capability theme.
 - `REPORT_SECTION_DRAFT.md` — draft technical-report section built on those
   numbers, for the co-authors to edit.
+
+No figure ships with this analysis on purpose: the manuscript already draws
+the capability taxonomy properly (`figures/taxonomy-sankey.pdf`,
+`fig:taxonomy-sankey`, one ribbon per source record over the full catalog)
+and its trend (`figures/taxonomy-trends.pdf`). A hand-rolled bar chart here
+would be a cruder second version of the same story; if the co-authors want
+the digest-side distribution in the paper, it belongs in that figure pipeline,
+not as a stray SVG.
 
 ## Data cut
 
@@ -75,6 +82,6 @@ python3 scripts/theme_coverage.py \
   analysis/theme-coverage
 ```
 
-The script prints `coverage.md` and rewrites it plus `themes_coverage.svg` in
-the output directory. A SHA-256 mismatch on either input aborts with the
-expected and actual hashes named.
+The script prints `coverage.md` and rewrites it in the output directory. A
+SHA-256 mismatch on either input aborts with the expected and actual hashes
+named.
